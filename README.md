@@ -34,3 +34,39 @@ CREATE TABLE coffee_orders (
     coffee_type VARCHAR(50) NOT NULL,
     order_status VARCHAR(20) NOT NULL DEFAULT 'created'
 );
+```
+
+## ⚙️ Configuración e Instalación
+
+### 1. Clonar el repositorio:
+```bash
+git clone https://github.com/FPSamu/PRACTICA2NUBE-COFFEESHOP.git
+```
+
+### 2. Instalar dependencias en la EC2:
+```bash
+pip install boto3 psycopg2-binary
+```
+
+### 3. Configurar credenciales:
+El script está diseñado para usar el perfil de instancia (IAM Role), por lo que no es necesario configurar aws configure manualmente dentro de la EC2 si el rol está asignado.
+
+## 🖥️ Uso
+
+### 1. Iniciar el Consumidor
+Ejecuta el script en tu instancia EC2 para comenzar a escuchar la cola:
+```bash
+python3 consumer.py
+```
+
+### 2. Simular Pedidos (Productor)
+Desde cualquier terminal con AWS CLI configurado, envía un mensaje con el formato `Tipo de cafe|timestamp`:
+```bash
+aws sqs send-message --queue-url TU_URL_AQUI --message-body "Latte|2026-02-27 10:00:00"
+```
+
+## 🔍 Formato de Datos
+El sistema espera mensajes con la siguiente estructura:
+`Nombre del Café | YYYY-MM-DD HH:MM:SS`
+
+Desarrollado por __Samuel Pia Figueroa__ - 2026
